@@ -10,9 +10,11 @@
       textarea {
          height: 200px !important;
       }
+
       .custom-margin-top {
          margin-top: calc(20vh - 50px);
       }
+
       .sticky-input-group {
          position: fixed;
          top: 5px;
@@ -23,6 +25,7 @@
          border-radius: 5px;
          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
+
       .custom-modal .modal-dialog {
          position: fixed;
          top: 100px;
@@ -90,6 +93,20 @@
             <div class="input-group mb-3">
                <span class="input-group-text">Connection ID:</span>
                <input id="input-call-connid" type="text" class="form-control">
+               <span class="input-group-text">Authentication Type:</span>
+               <input id="input-authentication-type" type="text" class="form-control" list="input-auto-complete-authentication-type">
+               <datalist id="input-auto-complete-authentication-type" >
+                  <option value="Interactive Voice Verification">
+                  <option value="One Time Code ~ Mobile Number Verified">
+                  <option value="One Time Code ~ Email Verified">
+                  <option value="Call back authenticated">
+                  <option value="Auto outbound">
+                  <option value="Manual Outbound">
+                  <option value="Outbound Authenticated Third-Party"></option>
+                  <option value="Bound for Knowledge Base Authentication."></option>
+                  <option value="Unidentified ~ Need authority">
+                  <option value="Unidentified ~ No One-Time-Code Provided">
+               </datalist>
                <button class="btn btn-outline-primary dropdown-toggle" id="btnMenuConnectionID" type="button"
                   data-bs-toggle="dropdown" aria-expanded="false"></button>
                <ul id="connectionIDMenu" class="dropdown-menu dropdown-menu-end"></ul>
@@ -288,7 +305,7 @@
                               <div class="col">
                                  <div class="input-group mb-3 justify-content-center">
                                     <span class="input-group-text">Resulting Overdue Balance:</span>
-                                    <input id="input-copy-overdue-balance-repayment-result"  value="📋"
+                                    <input id="input-copy-overdue-balance-repayment-result" value="📋"
                                        data-bs-toggle="tooltip" title="Copy Overdue Balance"
                                        class="btn btn-outline-primary" type="button">
                                  </div>
@@ -297,12 +314,14 @@
                            </div>
                         </div>
                      </div>
-                     <div id="divID-trickle-control" hidden>
+                     <div id="divID-trickle-control">
                         <div class="input-group mb-3">
                            <span class="input-group-text">Amount Payable:</span>
-                           <input id="input-reproduced-trickle-amount-payable" type="input" class="form-control" disabled>
+                           <input id="input-reproduced-trickle-amount-payable" type="input" class="form-control"
+                              disabled>
                            <span class="input-group-text">Overdue Balance:</span>
-                           <input id="input-reproduced-trickle-overdue-balance" type="input" class="form-control" disabled>
+                           <input id="input-reproduced-trickle-overdue-balance" type="input" class="form-control"
+                              disabled>
                            <input id="input-button-refresh-trickle-values" type="button"
                               class="btn btn-outline-secondary" value="🔄️">
                         </div>
@@ -316,21 +335,25 @@
                            <input id="input-trickle-repayment-date" type="date" class="form-control">
                         </div>
                         <div class="input-group mb-3">
-                           <span class="input-group-text">Select Date:</span>
-                           <select id="input-select" class="form-select">
+                           <span class="input-group-text">Repayment Interval: </span>
+                           <select id="select-trickle-date-interval" class="form-select">
                               <option value="one-off" selected>-- One-Off --</option>
                               <option value="weekly">/week</option>
                               <option value="fortnightly">/fortnight</option>
                               <option value="monthly">/month</option>
-
                            </select>
-                           <input id="btnAddTricklePayment" type="button" class="btn btn-outline-success" value="+">
+                           <input id="input-button-add-trickle-repayment" type="button" class="btn btn-outline-primary" value="+">
                         </div>
                         <div>
                            <div class="container">
-                              <ul id="trickleCalculationResult" class="list-group">
+                              <div class="input-group mb-3 justify-content-center">
+                                 <span class="input-group-text">Custom Calculation:</span>
+                                 <input id="input-copy-amount-payable-repayment-result" value="📋"
+                                    data-bs-toggle="tooltip" title="Copy Amount Payable"
+                                    class="btn btn-outline-primary" type="button">
+                              </div>
+                              <ul id="ulist-trickle-calculation-result" class="list-group"></ul>
 
-                              </ul>
                            </div>
                         </div>
                      </div>
@@ -381,15 +404,20 @@
 
 
    <script src="./assets/app/UI_Refferences/RepaymentUITest.js"></script>
+   <script src="./assets/app/RepaymentCalculator/RepaymentTest.js"></script>
 
+
+
+   <!-- View -->
+   <script src="./assets/app/RepaymentCalculator/RepaymentView.js"></script>
+   <!-- Model -->
+   <script src="./assets/app/RepaymentCalculator/RepaymentModel.js"></script>
+   <!-- Controller -->
+   <script src="./assets/app/RepaymentCalculator/RepaymentController.js"></script>
    <script src="./assets/app/app.js"></script>
 
 
 
-   <script src="./assets/app/RepaymentCalculator/RepaymentController.js"></script>
-   <script src="./assets/app/RepaymentCalculator/RepaymentModel.js"></script>
-   <script src="./assets/app/RepaymentCalculator/RepaymentView.js"></script>
-   <script src="./assets/app/RepaymentCalculator/RepaymentTest.js"></script>
 
 </body>
 

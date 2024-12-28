@@ -56,3 +56,5 @@ const UIRepayment = new RepaymentUI;
 //Test will be here.
 const UIRepaymentTest = new RepaymentUITest;
 const UIAccountsTest = new AccountUITest;
+
+const RepaymentApp = new RepaymentController(new RepaymentView, new RepaymentModel)
