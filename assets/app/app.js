@@ -1,47 +1,50 @@
 
 //Global functions are here.
-function AU_EST_Time(date_value) {
-   let australian_date;
-   if (!date_value){
-      date_value = new Date();
+function AU_EST_Time(dateValue) {
+   let australianDate;
+
+   if (!dateValue) {
+       dateValue = new Date(); // Default to current date if no value provided
    }
 
    // Handle DD/MM/YYYY format
-   if (typeof date_value === "string" && /^\d{2}\/\d{2}\/\d{4}$/.test(date_value)) {
-      const [day, month, year] = date_value.split("/").map(Number);
-      australian_date = new Date(year, month - 1, day); // Month is 0-based
+   if (typeof dateValue === "string" && /^\d{2}\/\d{2}\/\d{4}$/.test(dateValue)) {
+       const [day, month, year] = dateValue.split("/").map(Number);
+       australianDate = new Date(year, month - 1, day); // Month is 0-based
    } else {
-      // Fallback to default Date constructor handling
-      australian_date = new Date(date_value);
+       // Fallback to default Date constructor handling
+       australianDate = new Date(dateValue);
    }
 
-   if (isNaN(australian_date)) {
-      throw new Error("Invalid date value");
+   if (isNaN(australianDate)) {
+       throw new Error("Invalid date value");
    }
 
+   // Adjust to Australia/Sydney timezone
    const options = {
-      timeZone: "Australia/Sydney",
-      hour12: true,
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+       timeZone: "Australia/Sydney",
+       hour12: false, // Adjust to 24-hour format
+       day: "2-digit",
+       month: "2-digit",
+       year: "numeric",
+       hour: "2-digit",
+       minute: "2-digit",
+       second: "2-digit"
    };
 
-   const formatter = new Intl.DateTimeFormat('en-AU', options);
-   const parts = formatter.formatToParts(australian_date);
+   const formatter = new Intl.DateTimeFormat("en-AU", options);
+   const parts = formatter.formatToParts(australianDate);
+
+   // Convert parts into ISO 8601-like string
    const formattedDate = parts.reduce((acc, part) => {
-      if (part.type !== "literal") {
-         acc[part.type] = part.value;
-      }
-      return acc;
+       if (part.type !== "literal") {
+           acc[part.type] = part.value;
+       }
+       return acc;
    }, {});
 
-   // Return date in ISO 8601 format adjusted to Australia/Sydney timezone
    return new Date(
-      `${formattedDate.year}-${formattedDate.month}-${formattedDate.day}T${formattedDate.hour}:${formattedDate.minute}:${formattedDate.second}`
+       `${formattedDate.year}-${formattedDate.month}-${formattedDate.day}T${formattedDate.hour}:${formattedDate.minute}:${formattedDate.second}`
    );
 }
 
