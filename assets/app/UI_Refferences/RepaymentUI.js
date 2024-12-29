@@ -121,6 +121,11 @@ class RepaymentUI {
    get trickle_repayment_amount() {
       return this.#html_dom.sanitize(this.#repayment_element_reference.input_trickle_repayment_amount.value);
    }
+   get trickle_repayment_date() {
+      const sanitize_value = this.#html_dom.sanitize(this.#repayment_element_reference.input_trickle_repayment_date.value);
+      const parsed_date = AU_EST_Time(sanitize_value);
+      return parsed_date
+   }
 }
 
 class RepaymentUITest {

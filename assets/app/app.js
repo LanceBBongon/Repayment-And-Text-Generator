@@ -1,5 +1,21 @@
-
 //Global functions are here.
+function formatDate(date = new Date()) {
+    // If date is a string, convert it to a Date object
+    if (typeof date === 'string' || date instanceof String) {
+        date = new Date(date);
+    }
+
+    // Ensure the date is a valid Date object
+    if (isNaN(date)) {
+        throw new Error("Invalid date");
+    }
+
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+
+    return `${day}/${month}/${year}`;
+}
 function AU_EST_Time(dateValue) {
    let australianDate;
 
