@@ -16,6 +16,7 @@ function formatDate(date = new Date()) {
 
     return `${day}/${month}/${year}`;
 }
+
 function AU_EST_Time(dateValue) {
    let australianDate;
 

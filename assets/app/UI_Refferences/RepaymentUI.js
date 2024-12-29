@@ -16,6 +16,7 @@ class RepaymentUI {
       input_trickle_repayment_amount: document.getElementById("input-trickle-repayment-amount"),
       input_trickle_repayment_date: document.getElementById("input-trickle-repayment-date"),
       input_button_add_trickle_repayment: document.getElementById("input-button-add-trickle-repayment"),
+    
 
       select_trickle_repayment_interval: document.getElementById("select-trickle-date-interval"),
 
@@ -23,8 +24,9 @@ class RepaymentUI {
 
       ulist_amount_payable: document.getElementById("ulist-amount-payable-result"),
       ulist_overdue_balance: document.getElementById("ulist-overdue-balance-result"),
+      ulist_trickle_balance_result: document.getElementById("ulist-trickle-calculation-result"),
 
-      div_repayment: document.getElementById("divID-repayment"),
+
       div_repayment_control: document.getElementById("divID-repayment-control"),
       div_trickle_control: document.getElementById("divID-trickle-control"),
 
@@ -35,6 +37,10 @@ class RepaymentUI {
       // console.log("We got a button!");
       // console.log(this.#repayment_element_reference.input_button_add_trickle_repayment);
       return this.#repayment_element_reference.input_button_add_trickle_repayment;
+   }
+
+   button_remove_trickle_repayment() {
+      return this.#repayment_element_reference.ulist_trickle_balance_result;
    }
 
    div_repayment = () => this.#repayment_element_reference.div_repayment;
@@ -63,6 +69,7 @@ class RepaymentUI {
       this.#repayment_element_reference.input_repayment_starting_date.valueAsDate = parse_date
    }
    set trickle_amount_payable(value) {
+      console.log("Updating html:", value);
       const sanitized_value = this.#html_dom.sanitize(value);
       const parsed_value = parseFloat(sanitized_value);
       const final_value = isNaN(parsed_value) ? 0 : parsed_value;

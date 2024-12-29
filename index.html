@@ -82,7 +82,7 @@
          <!-- Accounts Section -->
          <div class="input-group mb-3">
             <span class="input-group-text">Accounts</span>
-            <input type="text" class="form-control" aria-label="txtGenerator_customerInfo" disabled>
+            <input type="text" class="form-control" disabled>
             <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                aria-expanded="false"></button>
             <ul id="accountsMenu" class="dropdown-menu dropdown-menu-end"></ul>
@@ -347,12 +347,26 @@
                         <div>
                            <div class="container">
                               <div class="input-group mb-3 justify-content-center">
-                                 <span class="input-group-text">Custom Calculation:</span>
+                                 <span class="input-group-text">Custom Calculation Result:</span>
+                                 <input type="text" class="form-control" disabled>
                                  <input id="input-copy-amount-payable-repayment-result" value="📋"
                                     data-bs-toggle="tooltip" title="Copy Amount Payable"
                                     class="btn btn-outline-primary" type="button">
                               </div>
-                              <ul id="ulist-trickle-calculation-result" class="list-group"></ul>
+                              <ul id="ulist-trickle-calculation-result" class="list-group">
+                                 <li class="list-group-item d-flex justify-content-between align-items-center" data-id="2">
+                                    Item 2
+                                    <input type="button" class="delete-btn btn btn-danger btn-sm" data-id="2" value="Delete">
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-center" data-id="2">
+                                    Item 2
+                                    <input type="button" class="delete-btn btn btn-danger btn-sm" data-id="2" value="Delete">
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-center" data-id="1">
+                                    Item 1
+                                    <input type="button" class="delete-btn btn btn-danger btn-sm" data-id="2" value="Delete">
+                                  </li>
+                              </ul>
 
                            </div>
                         </div>
