@@ -33,19 +33,21 @@ class RepaymentUI {
       label_repayment_balance: document.getElementById("label-repayment-balance"),
    }
 
+   ulist_trickle_repayment_result() {
+      return this.#repayment_element_reference.ulist_trickle_balance_result;
+   }
+
    button_add_trickle_repayment() {
       // console.log("We got a button!");
       // console.log(this.#repayment_element_reference.input_button_add_trickle_repayment);
       return this.#repayment_element_reference.input_button_add_trickle_repayment;
    }
 
-   button_remove_trickle_repayment() {
-      return this.#repayment_element_reference.ulist_trickle_balance_result;
-   }
+   
 
    div_repayment = () => this.#repayment_element_reference.div_repayment;
    div_repayment_control = () => this.#repayment_element_reference.div_repayment_control;
-   dive_trickle_control = () => this.#repayment_element_reference.div_trickle_control;
+   div_trickle_control = () => this.#repayment_element_reference.div_trickle_control;
 
    constructor() {
       console.log("Repayment UI Loaded");
@@ -191,7 +193,6 @@ class RepaymentUITest {
       console.log(this.#repayment_ui.repayment_starting_date);
       console.log(this.#repayment_ui.repayment_date_interval)
       console.log(this.#repayment_ui.trickle_amount_payable);
-
    }
 
 }
