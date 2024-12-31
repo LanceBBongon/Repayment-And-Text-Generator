@@ -6,14 +6,19 @@ class RepaymentView {
 
 
    //Class specific variables.
-   
+
    constructor() {
       console.log("Repayment View Loaded.");
 
    }
 
    html_trickle_ulist_result(trickle_payment_result) {
-      if (!this.#repayment_ui.trickle_amount_payable === 0) {
+      if (this.#repayment_ui.trickle_amount_payable === 0) {
+         return;
+      }
+
+      if (!Array.isArray(trickle_payment_result)) {
+         console.error("Invalid input: trickle_payment_result must be an array.");
          return;
       }
 
@@ -21,13 +26,22 @@ class RepaymentView {
       let html_list_view_result = '';
       console.log(trickle_payment_result);
       console.log(trickle_payment_result.length);
+
       for (let i = 0; i < trickle_payment_result.length; i++) {
-         const result = trickle_payment_result[i];
-         html_list_view_result += `<li class="list-group-item d-flex justify-content-between align-items-center" data-id=${result.repayment_id}>${result.repayment_id}.`
-         html_list_view_result += ` $${result.repayment_amount}, due on ${result.repayment_date}`;
-         html_list_view_result += `<input type="button" class="delete-btn btn btn-danger btn-sm" data-id="${result.repayment_id}" value="Delete">`
-         html_list_view_result += `</li>`
+         const trickle_data = trickle_payment_result[i];
+         html_list_view_result += `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+    ${this.#html_dom.sanitize(trickle_data.repayment_id)}. 
+    $${this.#html_dom.sanitize(trickle_data.repayment_amount)}, due on ${this.#html_dom.sanitize(trickle_data.repayment_date)}
+    <input 
+        type="button" 
+        class="delete-btn btn btn-danger btn-sm" 
+        data-trickle-info='{"repayment_id": "${this.#html_dom.sanitize(trickle_data.repayment_id)}", "repayment_amount": "${this.#html_dom.sanitize(trickle_data.repayment_amount)}"}' 
+        value="Delete">
+</li>
+         `;
       }
-      this.#trickle_repayment_list.innerHTML = this.#html_dom.sanitize(html_list_view_result) ;
+
+      this.#trickle_repayment_list.innerHTML = html_list_view_result;
    }
 }

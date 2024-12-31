@@ -15,7 +15,7 @@ class RepaymentModel {
    trickle_repayment_list = [];
 
    //To-do: The calculation needs to advance the date.
-   
+
    add_trickle_calculation() {
       console.log({
          trickleAmountPayable: this.trickle_amount_payable,
@@ -67,7 +67,14 @@ class RepaymentModel {
 
    trickle_original_amount_payable;
    trickle_original_overdue_balance;
-   remove_trickle_calculation() {
+   remove_trickle_calculation(repayment_id, repayment_amount) {
+      const index = this.trickle_repayment_list.findIndex(item => item.repayment_id === repayment_id);
+      if (index !== -1) {
+         this.trickle_repayment_list.splice(index, 1); // Remove the item at the found index
+      }
 
+      for (let update_index = 0; update_index < this.trickle_repayment_list.length; update_index++) {
+         this.trickle_repayment_list[update_index].repayment_id = update_index + 1; // Renumber starting from 1
+      }
    }
 }

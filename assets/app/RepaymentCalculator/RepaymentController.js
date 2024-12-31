@@ -19,6 +19,8 @@ class RepaymentController {
 
    add_trickle_calculation() {
       this.#button_add_trickle_repayment.addEventListener('click', () => {
+
+
          const {
             trickle_repayment_amount,
             trickle_amount_payable,
@@ -35,6 +37,10 @@ class RepaymentController {
             console.warn("Unable to calculate. Trickle amount payable is already 0.");
             return;
          }
+
+         this.#repayment_ui.trickle_amount_payable;
+         this.#repayment_ui.trickle_overdue_balance;
+
 
          // Update Repayment_Model with the required values
          Object.assign(this.Repayment_Model, {
@@ -62,19 +68,27 @@ class RepaymentController {
    remove_trickle_calculation() {
       this.#trickle_unordered_list.addEventListener("click", (event) => {
          // Check if the clicked element is a delete input button
-
          if (event.target && event.target.classList.contains("delete-btn")) {
-            // Get the data-id attribute from the clicked input
-            const selectedDataId = event.target.getAttribute("data-id");
 
-            // Log or use the selected data ID
-            console.log(`Selected Data ID: ${selectedDataId}`);
+            //    // Get the data-id attribute from the clicked input
+            //    const selectedDataId = event.target.getAttribute("data-trickle-info");
+            //    //When deleted return the value to amount payable;
+            //    // Log or use the selected data ID
+            //    console.log(`Selected Data ID: ${selectedDataId}`);
+            const trickle_repayment_data = event.target.getAttribute("data-trickle-info");
+            console.log(trickle_repayment_data);
+            const parsed_trickle_data = JSON.parse(trickle_repayment_data);
+            
+            let parsed_id = parseFloat(parsed_trickle_data.repayment_id);
+            let parsed_amount = parseFloat(parsed_trickle_data.repayment_amount);
+            console.log(parsed_id);
+            console.log("Amount:", parsed_amount);
 
-            // Optionally, remove the parent list item
-            const listItem = event.target.closest(".list-group-item");
-            if (listItem) {
-               listItem.remove();
-            }
+            //    // Optionally, remove the parent list item
+            //    const listItem = event.target.closest(".list-group-item");
+            //    if (listItem) {
+            //       listItem.remove();
+            //    }
          }
       });
    }
