@@ -16,7 +16,8 @@ class RepaymentUI {
       input_trickle_repayment_amount: document.getElementById("input-trickle-repayment-amount"),
       input_trickle_repayment_date: document.getElementById("input-trickle-repayment-date"),
       input_button_add_trickle_repayment: document.getElementById("input-button-add-trickle-repayment"),
-    
+      input_button_reset_trickle_repayment: document.getElementById("input-button-reset-trickle-repayment"),
+
 
       select_trickle_repayment_interval: document.getElementById("select-trickle-date-interval"),
 
@@ -37,13 +38,20 @@ class RepaymentUI {
       return this.#repayment_element_reference.ulist_trickle_balance_result;
    }
 
+   button_reset_trickle_repayment() {
+      // console.log("We got a button!");
+      // console.log(this.#repayment_element_reference.input_button_add_trickle_repayment);
+      return this.#repayment_element_reference.input_button_reset_trickle_repayment;
+   }
+
+
    button_add_trickle_repayment() {
       // console.log("We got a button!");
       // console.log(this.#repayment_element_reference.input_button_add_trickle_repayment);
       return this.#repayment_element_reference.input_button_add_trickle_repayment;
    }
 
-   
+
 
    div_repayment = () => this.#repayment_element_reference.div_repayment;
    div_repayment_control = () => this.#repayment_element_reference.div_repayment_control;
@@ -122,11 +130,39 @@ class RepaymentUI {
    }
    //Trickle 
    get trickle_amount_payable() {
-      return this.#html_dom.sanitize(this.#repayment_element_reference.input_trickle_amount_payable.value);
+      try {
+         const rawValue = this.#repayment_element_reference.input_trickle_amount_payable?.value;
+         if (rawValue === undefined || rawValue === null) {
+            throw new Error("Input element for trickle_amount_payable is missing.");
+         }
+         const sanitize_value = this.#html_dom.sanitize(rawValue);
+         const parsed_value = parseFloat(sanitize_value);
+         // Use final_value to ensure NaN defaults to 0
+         const final_value = isNaN(parsed_value) ? 0 : parsed_value;
+         return final_value;
+      } catch (error) {
+         console.error(error.message);
+         return 0; // Default value or other fallback
+      }
    }
    get trickle_overdue_balance() {
-      return this.#html_dom.sanitize(this.#repayment_element_reference.input_trickle_overdue_balance.value);
+      try {
+         const rawValue = this.#repayment_element_reference.input_trickle_overdue_balance?.value;
+         if (rawValue === undefined || rawValue === null) {
+            throw new Error("Input element for trickle_overdue_balance is missing.");
+         }
+         const sanitize_value = this.#html_dom.sanitize(rawValue);
+         const parsed_value = parseFloat(sanitize_value);
+         // Use final_value to ensure NaN defaults to 0
+         const final_value = isNaN(parsed_value) ? 0 : parsed_value;
+         return final_value;
+      } catch (error) {
+         console.error(error.message);
+         return 0; // Default value or other fallback
+      }
    }
+
+
    get trickle_repayment_amount() {
       return this.#html_dom.sanitize(this.#repayment_element_reference.input_trickle_repayment_amount.value);
    }
@@ -170,7 +206,7 @@ class RepaymentUITest {
    #repayment_starting_date = "24/12/2024";
    #repayment_date_interval = "fortnightly";
    #trickle_amount_payable = 75
-   #trickle_overdue_balance = 0;
+   #trickle_overdue_balance = 50;
    #trickle_repayment_amount = 25;
    #trickle_repayment_date = "23/12/2024";
    #trickle_repayment_interval = "fortnightly"
