@@ -31,6 +31,16 @@ class RepaymentController {
 
    add_trickle_calculation() {
       this.#button_add_trickle_repayment.addEventListener('click', () => {
+         // if (this.trickle_repayment_amount > this.trickle_amount_payable) {
+         //    console.warn("The repayment amount exceeds the trickle amount payable");
+         //    if (this.trickle_amount_payable !== 0){
+         //       this.Repayment_Model.trickle_repayment_amount = this.trickle_amount_payable;
+         //       this.Repayment_Model.trickle_repayment
+         //    }   
+
+         //    return;
+         // }
+
          //Getting the variables needed in repayment_ui
          const {
             trickle_repayment_amount,
@@ -41,11 +51,6 @@ class RepaymentController {
 
          if (trickle_repayment_amount <= 0) {
             console.warn("Your repayment amount cannot be 0");
-            return;
-         }
-
-         if (trickle_amount_payable <= 0) {
-            console.warn("Unable to calculate. Trickle amount payable is already 0.");
             return;
          }
 
@@ -76,7 +81,7 @@ class RepaymentController {
          //Return $85 back to the balance 
          //The remainder should be $5.
 
-         
+
          if (event.target && event.target.classList.contains("delete-btn")) {
 
             this.Repayment_Model.trickle_amount_payable = this.#repayment_ui.trickle_amount_payable;

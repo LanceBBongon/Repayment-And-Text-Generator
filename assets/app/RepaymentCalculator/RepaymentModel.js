@@ -20,13 +20,6 @@ class RepaymentModel {
    }
 
    add_trickle_calculation() {
-      // console.log({
-      //    trickleAmountPayable: this.trickle_amount_payable,
-      //    trickleOverdueBalance: this.trickle_overdue_balance,
-      //    trickleRepaymentAmount: this.trickle_repayment_amount,
-      //    trickleRepaymentDate: this.trickle_repayment_date
-      // });
-
       // Increment payment count if there are existing repayments
       if (this.trickle_repayment_list.length > 0) {
          this.trickle_payment_count++;
@@ -40,12 +33,7 @@ class RepaymentModel {
 
       this.trickle_repayment_list.push(repaymentDetails);
 
-      // Check if repayment amount exceeds the amount payable
-      if (this.trickle_repayment_amount >= this.trickle_amount_payable) {
-         this.trickle_amount_payable = 0;
-         console.warn("Final balance added to the list.");
-         return this.trickle_repayment_list;
-      }
+      // Check if repayment amount exceeds the amount payable.
 
       // Adjust overdue balance and payable amount
       if (this.trickle_overdue_balance >= this.trickle_repayment_amount) {
@@ -63,7 +51,6 @@ class RepaymentModel {
          this.trickle_overdue_balance = 0;
          this.trickle_amount_payable -= remainder;
       }
-
       //console.log(this.trickle_repayment_list);
       return this.trickle_repayment_list;
    }
@@ -73,12 +60,8 @@ class RepaymentModel {
    trickle_original_amount_payable;
    trickle_original_overdue_balance;
    remove_trickle_calculation(repayment_id, repayment_amount) {
-
       let remaining_balance;
       let total_amount = this.trickle_amount_payable + repayment_amount;
-
-
-
       if (total_amount >= this.trickle_original_amount_payable && this.trickle_overdue_balance <= 0) {
          console.log("Processing amount payable to overdue balance transition.");
          // Calculate
@@ -92,17 +75,20 @@ class RepaymentModel {
          console.log("Processing overdue balance");
          this.trickle_overdue_balance = this.trickle_overdue_balance + repayment_amount;
       }
+      this.update_repayment_list(repayment_id);
+   }
 
-      let index = this.trickle_repayment_list.findIndex(item => item.repayment_id === repayment_id);
+   update_repayment_list(repayment_id) {
+      const index = this.trickle_repayment_list.findIndex(item => item.repayment_id === repayment_id);
       if (index !== -1) {
-         this.trickle_repayment_list.splice(index, 1); // Remove the item at the found index
+         this.trickle_repayment_list.splice(index, 1);
       }
-
-      for (let update_index = 0; update_index < this.trickle_repayment_list.length; update_index++) {
-
-         this.trickle_repayment_list[update_index].repayment_id = update_index + 1; // Renumber starting from 1
-      }
-      if (this.trickle_repayment_list.length !== 0) {
+      // Renumber repayment IDs
+      this.trickle_repayment_list.forEach((item, idx) => {
+         item.repayment_id = idx + 1;
+      });
+      // Adjust payment count if the list isn't empty
+      if (this.trickle_repayment_list.length > 0) {
          this.trickle_payment_count -= 1;
       }
    }
