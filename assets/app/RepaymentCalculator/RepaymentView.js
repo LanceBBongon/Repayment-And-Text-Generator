@@ -24,9 +24,7 @@ class RepaymentView {
 
       console.log("Trickle calculation into view.");
       let html_list_view_result = '';
-      console.log(trickle_payment_result);
-      console.log(trickle_payment_result.length);
-
+      
       for (let i = 0; i < trickle_payment_result.length; i++) {
          const trickle_data = trickle_payment_result[i];
          html_list_view_result += `

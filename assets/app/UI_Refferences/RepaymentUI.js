@@ -79,7 +79,6 @@ class RepaymentUI {
       this.#repayment_element_reference.input_repayment_starting_date.valueAsDate = parse_date
    }
    set trickle_amount_payable(value) {
-      console.log("Updating html:", value);
       const sanitized_value = this.#html_dom.sanitize(value);
       const parsed_value = parseFloat(sanitized_value);
       const final_value = isNaN(parsed_value) ? 0 : parsed_value;
@@ -97,12 +96,14 @@ class RepaymentUI {
       const final_value = isNaN(parsed_value) ? 0 : parsed_value;
       this.#repayment_element_reference.input_trickle_repayment_amount.value = final_value;
    }
+   
    set trickle_repayment_starting_date(value) {
       const sanitized_value = this.#html_dom.sanitize(value);
       const parsed_value = parseFloat(sanitized_value);
       const final_value = isNaN(parsed_value) ? 0 : parsed_value;
       this.#repayment_element_reference.input_repayment_starting_date.value = final_value;
    }
+
    set trickle_repayment_date(value) {
       const sanitized_value = this.#html_dom.sanitize(value);
       const parse_date = AU_EST_Time(sanitized_value);
@@ -223,12 +224,11 @@ class RepaymentUITest {
    }
 
    test_get_values() {
-      if (this.#repayment_ui.repayment_balance === this.#repayment_balance) {
-         console.log(this.#repayment_ui.repayment_balance);
-      }
-      console.log(this.#repayment_ui.repayment_starting_date);
-      console.log(this.#repayment_ui.repayment_date_interval)
-      console.log(this.#repayment_ui.trickle_amount_payable);
+      
+      //console.log(this.#repayment_ui.repayment_balance);
+      // console.log(this.#repayment_ui.repayment_starting_date);
+      // console.log(this.#repayment_ui.repayment_date_interval)
+      // console.log(this.#repayment_ui.trickle_amount_payable);
    }
 
 }

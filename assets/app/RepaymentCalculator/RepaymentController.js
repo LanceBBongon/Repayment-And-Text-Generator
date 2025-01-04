@@ -31,8 +31,6 @@ class RepaymentController {
 
    add_trickle_calculation() {
       this.#button_add_trickle_repayment.addEventListener('click', () => {
-
-
          //Getting the variables needed in repayment_ui
          const {
             trickle_repayment_amount,
@@ -51,8 +49,6 @@ class RepaymentController {
             return;
          }
 
-
-
          // Update Repayment_Model with the required values
          Object.assign(this.Repayment_Model, {
             trickle_amount_payable,
@@ -60,12 +56,9 @@ class RepaymentController {
             trickle_repayment_amount,
             trickle_repayment_date
          });
-
          // Perform the calculation
-         const trickleResult = this.Repayment_Model.add_trickle_calculation();
-
+         this.Repayment_Model.add_trickle_calculation();
          // Update the view with the calculation result
-         this.Repayment_View.html_trickle_ulist_result(trickleResult);
 
          // Update UI with the new balance
          const { trickle_amount_payable: updated_amount_payable, trickle_overdue_balance: updated_overdue_balance } = this.Repayment_Model;
@@ -73,6 +66,8 @@ class RepaymentController {
             trickle_amount_payable: updated_amount_payable,
             trickle_overdue_balance: updated_overdue_balance
          });
+
+         this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }
 
@@ -80,7 +75,8 @@ class RepaymentController {
       this.#trickle_unordered_list.addEventListener("click", (event) => {
          //Return $85 back to the balance 
          //The remainder should be $5.
-         //
+
+         
          if (event.target && event.target.classList.contains("delete-btn")) {
 
             this.Repayment_Model.trickle_amount_payable = this.#repayment_ui.trickle_amount_payable;
@@ -89,17 +85,16 @@ class RepaymentController {
             const trickle_repayment_data = event.target.getAttribute("data-trickle-info");
             //When deleted return the value to amount payable;
             //Log or use the selected data ID
-            console.log(`Selected Data ID: ${trickle_repayment_data}`);
+            // console.log(`Selected Data ID: ${trickle_repayment_data}`);
 
-            console.log(trickle_repayment_data);
+            // console.log(trickle_repayment_data);
             const parsed_trickle_data = JSON.parse(trickle_repayment_data);
 
             let parsed_repayment_id = parseFloat(parsed_trickle_data.repayment_id);
             let parsed_repayment_amount = parseFloat(parsed_trickle_data.repayment_amount);
 
-            this.Repayment_Model.remove_trickle_calculation(
-               parsed_repayment_id,
-               parsed_repayment_amount)
+            this.Repayment_Model.remove_trickle_calculation(parsed_repayment_id,
+               parsed_repayment_amount);
 
             this.#repayment_ui.trickle_amount_payable = this.Repayment_Model.trickle_amount_payable;
             this.#repayment_ui.trickle_overdue_balance = this.Repayment_Model.trickle_overdue_balance;
@@ -109,9 +104,8 @@ class RepaymentController {
                listItem.remove();
             }
          }
+            this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }
-
-
 }
 
