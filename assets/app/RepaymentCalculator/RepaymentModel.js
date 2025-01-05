@@ -20,12 +20,33 @@ class RepaymentModel {
    }
 
    add_trickle_calculation() {
+      let repaymentDetails = null;
+
+      if(this.trickle_amount_payable <= 0) {
+         console.warn("Unable to add a new item to the list. The amount payable is zero");
+         return;
+      }
       // Increment payment count if there are existing repayments
       if (this.trickle_repayment_list.length > 0) {
          this.trickle_payment_count++;
       }
 
-      const repaymentDetails = {
+      if (this.trickle_repayment_amount > this.trickle_amount_payable && this.trickle_overdue_balance) {
+         repaymentDetails = {
+            repayment_id: this.trickle_payment_count,
+            repayment_amount: Math.min(this.trickle_repayment_amount, this.trickle_amount_payable),
+            repayment_date: formatDate(this.trickle_repayment_date)
+         };
+
+      } else {
+         repaymentDetails = {
+            repayment_id: this.trickle_payment_count,
+            repayment_amount: Math.min(this.trickle_repayment_amount, this.trickle_amount_payable),
+            repayment_date: formatDate(this.trickle_repayment_date)
+         };
+      }
+
+      repaymentDetails = {
          repayment_id: this.trickle_payment_count,
          repayment_amount: Math.min(this.trickle_repayment_amount, this.trickle_amount_payable),
          repayment_date: formatDate(this.trickle_repayment_date)
@@ -51,6 +72,9 @@ class RepaymentModel {
          this.trickle_overdue_balance = 0;
          this.trickle_amount_payable -= remainder;
       }
+
+      console.log(this.trickle_payment_count);
+      console.log(this.trickle_repayment_list.length);
       //console.log(this.trickle_repayment_list);
       return this.trickle_repayment_list;
    }
@@ -60,21 +84,36 @@ class RepaymentModel {
    trickle_original_amount_payable;
    trickle_original_overdue_balance;
    remove_trickle_calculation(repayment_id, repayment_amount) {
+
       let remaining_balance;
       let total_amount = this.trickle_amount_payable + repayment_amount;
+      console.log(this.trickle_payment_count);
+      console.log(this.trickle_repayment_list.length);
+
       if (total_amount >= this.trickle_original_amount_payable && this.trickle_overdue_balance <= 0) {
          console.log("Processing amount payable to overdue balance transition.");
-         // Calculate
-         this.trickle_amount_payable = Math.min(total_amount, this.trickle_original_amount_payable); // Amount that fits into the first limit
-         remaining_balance = total_amount - this.trickle_amount_payable; // Overflow from the first limit
-         this.trickle_overdue_balance = Math.min(remaining_balance, this.trickle_original_overdue_balance); // Amount that fits into the second limit
-      } else if (total_amount <= this.trickle_original_amount_payable && this.trickle_overdue_balance <= 0) {
-         console.log("Processing amount payable");
-         this.trickle_amount_payable = this.trickle_amount_payable + repayment_amount;
-      } else if (total_amount >= this.trickle_original_amount_payable && this.trickle_overdue_balance > 0) {
-         console.log("Processing overdue balance");
-         this.trickle_overdue_balance = this.trickle_overdue_balance + repayment_amount;
-      }
+ 
+         // Handle amount payable transition
+         this.trickle_amount_payable = Math.min(total_amount, this.trickle_original_amount_payable);
+         remaining_balance = total_amount - this.trickle_amount_payable;
+ 
+         // Handle overdue balance transition
+         this.trickle_overdue_balance = Math.min(remaining_balance, this.trickle_original_overdue_balance);
+ 
+     } else if (total_amount <= this.trickle_original_amount_payable && this.trickle_overdue_balance <= 0) {
+         console.log("Processing amount payable increment.");
+         this.trickle_amount_payable += repayment_amount;
+ 
+     } else if (total_amount >= this.trickle_original_amount_payable && this.trickle_overdue_balance > 0) {
+         console.log("Processing overdue balance increment.");
+         this.trickle_overdue_balance += repayment_amount;
+     }  else {
+         console.warn("Unhandled condition. No updates applied.");
+         this.trickle_amount_payable += repayment_amount;
+ 
+     }
+
+      //
       this.update_repayment_list(repayment_id);
    }
 

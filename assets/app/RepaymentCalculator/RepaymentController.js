@@ -31,28 +31,20 @@ class RepaymentController {
 
    add_trickle_calculation() {
       this.#button_add_trickle_repayment.addEventListener('click', () => {
-         // if (this.trickle_repayment_amount > this.trickle_amount_payable) {
-         //    console.warn("The repayment amount exceeds the trickle amount payable");
-         //    if (this.trickle_amount_payable !== 0){
-         //       this.Repayment_Model.trickle_repayment_amount = this.trickle_amount_payable;
-         //       this.Repayment_Model.trickle_repayment
-         //    }   
+         
 
-         //    return;
-         // }
+         if (this.trickle_repayment_amount === 0) {
+            console.warn("Repayment amount cannot be zero.");
+            return
+         }
 
-         //Getting the variables needed in repayment_ui
+         //Get the variables from repayment ui.
          const {
             trickle_repayment_amount,
             trickle_amount_payable,
             trickle_overdue_balance,
             trickle_repayment_date
          } = this.#repayment_ui;
-
-         if (trickle_repayment_amount <= 0) {
-            console.warn("Your repayment amount cannot be 0");
-            return;
-         }
 
          // Update Repayment_Model with the required values
          Object.assign(this.Repayment_Model, {
@@ -109,7 +101,7 @@ class RepaymentController {
                listItem.remove();
             }
          }
-            this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
+         this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }
 }
