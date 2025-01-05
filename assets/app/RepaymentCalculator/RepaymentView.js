@@ -13,18 +13,12 @@ class RepaymentView {
    }
 
    html_trickle_ulist_result(trickle_payment_result) {
-      if (this.#repayment_ui.trickle_amount_payable === 0) {
-         return;
-      }
 
       if (!Array.isArray(trickle_payment_result)) {
          console.error("Invalid input: trickle_payment_result must be an array.");
          return;
       }
-
-      console.log("Trickle calculation into view.");
       let html_list_view_result = '';
-      
       for (let i = 0; i < trickle_payment_result.length; i++) {
          const trickle_data = trickle_payment_result[i];
          html_list_view_result += `

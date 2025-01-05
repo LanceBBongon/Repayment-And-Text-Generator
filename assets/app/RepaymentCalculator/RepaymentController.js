@@ -31,7 +31,7 @@ class RepaymentController {
 
    add_trickle_calculation() {
       this.#button_add_trickle_repayment.addEventListener('click', () => {
-         
+
 
          if (this.trickle_repayment_amount === 0) {
             console.warn("Repayment amount cannot be zero.");
@@ -56,7 +56,7 @@ class RepaymentController {
          // Perform the calculation
          this.Repayment_Model.add_trickle_calculation();
          // Update the view with the calculation result
-
+         
          // Update UI with the new balance
          const { trickle_amount_payable: updated_amount_payable, trickle_overdue_balance: updated_overdue_balance } = this.Repayment_Model;
          Object.assign(this.#repayment_ui, {
@@ -72,10 +72,7 @@ class RepaymentController {
       this.#trickle_unordered_list.addEventListener("click", (event) => {
          //Return $85 back to the balance 
          //The remainder should be $5.
-
-
          if (event.target && event.target.classList.contains("delete-btn")) {
-
             this.Repayment_Model.trickle_amount_payable = this.#repayment_ui.trickle_amount_payable;
             this.Repayment_Model.trickle_overdue_balance = this.#repayment_ui.trickle_overdue_balance;
             // Get the data-id attribute from the clicked input
