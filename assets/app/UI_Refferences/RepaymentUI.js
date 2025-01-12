@@ -4,11 +4,14 @@ class RepaymentUI {
    #html_dom = DOMPurify
 
    #repayment_element_reference = {
+      select_payment_extension_type: document.getElementById("select-payment-extension-type"),
 
       input_repayment_balance: document.getElementById("input-repayment-balance"),
       input_repayment_starting_date: document.getElementById("input-repayment-starting-date"),
       select_repayment_date_interval: document.getElementById("select-repayment-date-interval"),
 
+
+      //Trickle input and control.
       input_copy_amount_payable_result: document.getElementById("input-copy-amount-payable-repayment-result"),
       input_copy_overdue_balance_result: document.getElementById("input-copy-overdue-balance-repayment-result"),
       input_trickle_amount_payable: document.getElementById("input-reproduced-trickle-amount-payable"),
@@ -17,16 +20,17 @@ class RepaymentUI {
       input_trickle_repayment_date: document.getElementById("input-trickle-repayment-date"),
       input_button_add_trickle_repayment: document.getElementById("input-button-add-trickle-repayment"),
       input_button_reset_trickle_repayment: document.getElementById("input-button-reset-trickle-repayment"),
+      input_button_open_window_of_trickle_repayment: document.getElementById("input-button-open-window-trickle-repayment"),
 
+      select_trickle_repayment_date_interval: document.getElementById("select-trickle-repayment-date-interval"),
 
-      select_trickle_repayment_interval: document.getElementById("select-trickle-date-interval"),
-
-      select_payment_extension_type: document.getElementById("select-payment-extension-type"),
-
+     
+      //Collection of item list
+      //Repayment display refference.
       ulist_amount_payable: document.getElementById("ulist-amount-payable-result"),
       ulist_overdue_balance: document.getElementById("ulist-overdue-balance-result"),
+      //Trickle display refference
       ulist_trickle_balance_result: document.getElementById("ulist-trickle-calculation-result"),
-
 
       div_repayment_control: document.getElementById("divID-repayment-control"),
       div_trickle_control: document.getElementById("divID-trickle-control"),
@@ -43,15 +47,14 @@ class RepaymentUI {
       // console.log(this.#repayment_element_reference.input_button_add_trickle_repayment);
       return this.#repayment_element_reference.input_button_reset_trickle_repayment;
    }
-
-
    button_add_trickle_repayment() {
       // console.log("We got a button!");
       // console.log(this.#repayment_element_reference.input_button_add_trickle_repayment);
       return this.#repayment_element_reference.input_button_add_trickle_repayment;
    }
-
-
+   button_open_trickle_repayment_window() {
+      return this.#repayment_element_reference.input_button_open_window_of_trickle_repayment;
+   }
 
    div_repayment = () => this.#repayment_element_reference.div_repayment;
    div_repayment_control = () => this.#repayment_element_reference.div_repayment_control;
@@ -109,9 +112,9 @@ class RepaymentUI {
       const parse_date = AU_EST_Time(sanitized_value);
       this.#repayment_element_reference.input_trickle_repayment_date.valueAsDate = parse_date
    }
-   set trickle_repayment_interval(value) {
+   set trickle_repayment_date_interval(value) {
       const sanitized_value = this.#html_dom.sanitize(value);
-      this.#repayment_element_reference.select_trickle_repayment_interval.value = sanitized_value;
+      this.#repayment_element_reference.select_trickle_repayment_date_interval.value = sanitized_value;
    }
 
 
@@ -162,8 +165,10 @@ class RepaymentUI {
          return 0; // Default value or other fallback
       }
    }
-
-
+   get trickle_repayment_date_interval() {
+      const select_value = this.#repayment_element_reference.select_trickle_repayment_date_interval.value;
+      return this.#html_dom.sanitize(select_value);
+   }
    get trickle_repayment_amount() {
       return this.#html_dom.sanitize(this.#repayment_element_reference.input_trickle_repayment_amount.value);
    }
@@ -220,7 +225,7 @@ class RepaymentUITest {
       this.#repayment_ui.trickle_overdue_balance = this.#trickle_overdue_balance;
       this.#repayment_ui.trickle_repayment_amount = this.#trickle_repayment_amount;
       this.#repayment_ui.trickle_repayment_date = this.#trickle_repayment_date;
-      this.#repayment_ui.trickle_repayment_interval = this.#trickle_repayment_interval;
+      this.#repayment_ui.trickle_repayment_date_interval = this.#trickle_repayment_interval;
    }
 
    test_get_values() {

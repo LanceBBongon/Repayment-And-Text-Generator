@@ -45,7 +45,6 @@
    <!-- Sticky Input Group -->
    <div class="sticky-input-group">
       <div class="input-group">
-         <span class="input-group-text" data-bs-toggle="tooltip" title="Use to view and set date">Date:</span>
          <button id="btnGenerateActionNDemand" class="btn btn-outline-success" type="button" data-bs-toggle="tooltip"
             title="Copy Notes">Generate Notes</button>
          <span class="input-group-text">FAST Tools</span>
@@ -85,7 +84,12 @@
             <input type="text" class="form-control" disabled>
             <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                aria-expanded="false"></button>
-            <ul id="accountsMenu" class="dropdown-menu dropdown-menu-end"></ul>
+            <ul id="accountsMenu" class="dropdown-menu dropdown-menu-end">
+               <li><input class="dropdown-item" type="button" value="Generate Notes for Outbound Collections"></li>
+               <li><input class="dropdown-item" type="button" value="Hardship Decline for Collection Hold"></li>
+               <li><input class="dropdown-item" type="button"
+                     value="Hardship Decline for Overdue and Amount Payable Only"></li>
+            </ul>
          </div>
 
          <!-- Connection and Billing Info -->
@@ -94,8 +98,9 @@
                <span class="input-group-text">Connection ID:</span>
                <input id="input-call-connid" type="text" class="form-control">
                <span class="input-group-text">Authentication Type:</span>
-               <input id="input-authentication-type" type="text" class="form-control" list="input-auto-complete-authentication-type">
-               <datalist id="input-auto-complete-authentication-type" >
+               <input id="input-authentication-type" type="text" class="form-control"
+                  list="input-auto-complete-authentication-type">
+               <datalist id="input-auto-complete-authentication-type">
                   <option value="Interactive Voice Verification">
                   <option value="One Time Code ~ Mobile Number Verified">
                   <option value="One Time Code ~ Email Verified">
@@ -194,6 +199,12 @@
                            title="Refresh the repayment calculation." hidden>🔄️</button>
                         <span class="input-group-text">Enquiry Type:</span>
                         <input type="text" class="form-control" aria-label="txtGenerator_customerInfo" disabled>
+                        <input class="btn btn-outline-primary dropdown-toggle" id="input-trickle-payment-menu"
+                           type="button" data-bs-toggle="dropdown" aria-expanded="false" value="⚙️&#9662;">
+                        <ul class="dropdown-menu" aria-labelledby="mainMenuButton">
+                           <li><input class="dropdown-item" type="button" value="Hardship Decline"></li>
+                           <li><input class="dropdown-item" type="button" value="Payment Extension Notes"></li>
+                        </ul>
                      </div>
 
                      <div class="input-group mb-3">
@@ -203,8 +214,8 @@
                            <option value="specialisedAssistanceDelegation">SAT Delegation</option>
                         </select>
                      </div>
-                  </div>
 
+                  </div>
                   <!-- Action & Demand Section -->
                   <div class="row">
                      <div class="input-group mb-3 justify-content-center">
@@ -290,6 +301,22 @@
                            </select>
                         </div>
 
+                        <div class="input-group mb-3 justify-content-center">
+                           <span class="input-group-text">Repayment Calculation Result:</span>
+                           <input type="text" class="form-control" disabled>
+                           <input id="input-copy-amount-payable-repayment-result" value="📋" data-bs-toggle="tooltip"
+                              title="Copy Amount Payable" class="btn btn-outline-primary" type="button">
+                           <input class="btn btn-outline-primary dropdown-toggle" id="input-trickle-payment-menu"
+                              type="button" data-bs-toggle="dropdown" aria-expanded="false" value="⚙️&#9662;">
+                           <ul class="dropdown-menu" aria-labelledby="mainMenuButton">
+
+                              <li><input class="dropdown-item" type="button"
+                                    value="Hardship Decline for Overdue and Amount Payable Only"></li>
+                                    
+                              <li><input class="dropdown-item" type="button" value="Payment Extension Notes"></li>
+                           </ul>
+                        </div>
+
                         <div class="container-fluid">
                            <div class="row">
                               <div class="col">
@@ -312,60 +339,62 @@
                                  <ul id="ulist-overdue-balance-result" class="list-group"></ul>
                               </div>
                            </div>
+
                         </div>
-                     </div>
-                     <div id="divID-trickle-control">
-                        <div class="input-group mb-3">
-                           <span class="input-group-text">Amount Payable:</span>
-                           <input id="input-reproduced-trickle-amount-payable" type="input" class="form-control"
-                              disabled>
-                           <span class="input-group-text">Overdue Balance:</span>
-                           <input id="input-reproduced-trickle-overdue-balance" type="input" class="form-control"
-                              disabled>
-                           <input id="input-button-reset-trickle-repayment" type="button"
-                              class="btn btn-outline-secondary" value="🔄️">
-                        </div>
-                        <hr>
-                        <div class="input-group mb-3">
-                           <span id="contentID-label-trickle-repayment-amount" class="input-group-text">Repayment
-                              Amount:</span>
-                           <input id="input-trickle-repayment-amount" type="number" class="form-control"
-                              placeholder="Repayment Amount">
-                           <span class="input-group-text">Select Date:</span>
-                           <input id="input-trickle-repayment-date" type="date" class="form-control">
-                        </div>
-                        <div class="input-group mb-3">
-                           <span class="input-group-text">Repayment Interval: </span>
-                           <select id="select-trickle-date-interval" class="form-select">
-                              <option value="one-off" selected>-- One-Off --</option>
-                              <option value="weekly">/week</option>
-                              <option value="fortnightly">/fortnight</option>
-                              <option value="monthly">/month</option>
-                           </select>
-                           <input id="input-button-add-trickle-repayment" type="button" class="btn btn-outline-primary" value="+">
-                        </div>
-                        <div>
-                           <div class="container">
-                              <div class="input-group mb-3 justify-content-center">
-                                 <span class="input-group-text">Custom Calculation Result:</span>
-                                 <input type="text" class="form-control" disabled>
-                                 <input id="input-copy-amount-payable-repayment-result" value="📋"
-                                    data-bs-toggle="tooltip" title="Copy Amount Payable"
-                                    class="btn btn-outline-primary" type="button">
+
+                        <div id="divID-trickle-control">
+                           <div class="input-group mb-3">
+                              <span class="input-group-text">Amount Payable:</span>
+                              <input id="input-reproduced-trickle-amount-payable" type="input" class="form-control"
+                                 disabled>
+                              <span class="input-group-text">Overdue Balance:</span>
+                              <input id="input-reproduced-trickle-overdue-balance" type="input" class="form-control"
+                                 disabled>
+                              <input id="input-button-reset-trickle-repayment" type="button"
+                                 class="btn btn-outline-secondary" value="🔄️">
+                           </div>
+                           <hr>
+                           <div class="input-group mb-3">
+                              <span id="contentID-label-trickle-repayment-amount" class="input-group-text">Repayment
+                                 Amount:</span>
+                              <input id="input-trickle-repayment-amount" type="number" class="form-control"
+                                 placeholder="Repayment Amount">
+                              <span class="input-group-text">Select Date:</span>
+                              <input id="input-trickle-repayment-date" type="date" class="form-control">
+                           </div>
+                           <div class="input-group mb-3">
+                              <span class="input-group-text">Repayment Interval: </span>
+                              <select id="select-trickle-repayment-date-interval" class="form-select">
+                                 <option value="one-off" selected>-- One-Off --</option>
+                                 <option value="weekly">/week</option>
+                                 <option value="fortnightly">/fortnight</option>
+                                 <option value="monthly">/month</option>
+                              </select>
+                              <input id="input-button-add-trickle-repayment" type="button"
+                                 class="btn btn-outline-primary" value="+">
+                           </div>
+                           <div>
+                              <div class="container">
+                                 <div class="input-group mb-3 justify-content-center">
+                                    <span class="input-group-text">Trickle Calculation Result:</span>
+                                    <input type="text" class="form-control" disabled>
+                                    <input id="input-copy-amount-payable-repayment-result" value="📋"
+                                       data-bs-toggle="tooltip" title="Copy Amount Payable"
+                                       class="btn btn-outline-primary" type="button">
+                                    <input class="btn btn-outline-primary dropdown-toggle"
+                                       id="input-trickle-payment-menu" type="button" data-bs-toggle="dropdown"
+                                       aria-expanded="false" value="⚙️&#9662;">
+                                    <ul class="dropdown-menu" aria-labelledby="mainMenuButton">
+                                       <li><input class="dropdown-item" type="button" value="Result To New Window"
+                                          id="input-button-open-window-trickle-repayment"></li>
+                                       <li><input class="dropdown-item" type="button"
+                                             value="Hardship Decline for Overdue and Amount Payable Only"></li>
+                                       <li><input class="dropdown-item" type="button" value="Payment Extension Notes">
+                                       </li>
+                                    </ul>
+                                 </div>
                               </div>
                               <ul id="ulist-trickle-calculation-result" class="list-group">
-                                 <li class="list-group-item d-flex justify-content-between align-items-center" data-id="2">
-                                    Item 2
-                                    <input type="button" class="delete-btn btn btn-danger btn-sm" data-id="2" value="Delete">
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-center" data-id="2">
-                                    Item 2
-                                    <input type="button" class="delete-btn btn btn-danger btn-sm" data-id="2" value="Delete">
-                                  </li>
-                                  <li class="list-group-item d-flex justify-content-between align-items-center" data-id="1">
-                                    Item 1
-                                    <input type="button" class="delete-btn btn btn-danger btn-sm" data-id="2" value="Delete">
-                                  </li>
                               </ul>
                            </div>
                         </div>
@@ -417,7 +446,7 @@
 
 
    <script src="./assets/app/UI_Refferences/RepaymentUITest.js"></script>
-   <script src="./assets/app/RepaymentCalculator/RepaymentTest.js"></script>
+   <!-- <script src="./assets/app/RepaymentCalculator/RepaymentTest.js"></script> -->
 
 
 

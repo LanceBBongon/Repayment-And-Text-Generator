@@ -1,4 +1,56 @@
 //Global functions are here.
+function open_new_window(data) {
+    const newWindow = window.open('', '_blank', 'width=400,height=300');
+
+    // Inject an HTML skeleton
+    newWindow.document.write(`
+        <html>
+            <head><title>User Data</title></head>
+            <body>
+                <h1 id="greeting">Loading...</h1>
+                <script>
+                    // Listen for data from the parent window
+                    window.addEventListener('message', function(event) {
+                        const data = event.data;
+                        document.getElementById('greeting').textContent = 
+                            'Hello, ' + data.name + '! You are ' + data.age + ' years old.';
+                    });
+                </script>
+            </body>
+        </html>
+    `);
+
+    newWindow.document.close();
+
+    // Send data once the window is ready
+    newWindow.onload = function() {
+        newWindow.postMessage(userData, '*');
+    };
+}
+
+function advanceDate(date, intervalType) {
+    //Clone the date
+    const newDate = new Date(date); 
+    console.log(newDate);
+    switch (intervalType) {
+        case "weekly":
+            newDate.setDate(date.getDate() + 7);
+            break;
+        case "fortnightly":
+            newDate.setDate(date.getDate() + 14);
+            break;
+        case "monthly":
+            //Handle varying month lengths
+            newDate.setMonth(date.getMonth() + 1); 
+            break;
+        default:
+            console.warn("Interval type not recognized.");
+            return date;
+    }
+    //Return the correctly advanced date
+    return newDate; 
+}
+
 function formatDate(date = new Date()) {
     // If date is a string, convert it to a Date object
     if (typeof date === 'string' || date instanceof String) {

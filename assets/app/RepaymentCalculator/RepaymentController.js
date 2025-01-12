@@ -4,73 +4,80 @@ class RepaymentController {
    #repayment_ui = UIRepayment;
 
    #trickle_unordered_list = this.#repayment_ui.ulist_trickle_repayment_result();
+
    #button_reset_trickle_repayment = this.#repayment_ui.button_reset_trickle_repayment();
    #button_add_trickle_repayment = this.#repayment_ui.button_add_trickle_repayment();
-
+   #button_trickle_repayment_to_new_window = this.#repayment_ui.button_open_trickle_repayment_window();
 
    constructor(Repayment_View, Repayment_Model) {
       console.log("Repayment Controller Loaded.");
       this.Repayment_View = Repayment_View;
       this.Repayment_Model = Repayment_Model;
 
+      this.trickle_repayment();
+   }
+
+   trickle_repayment() {
       this.reset_trickle_calculation();
       this.add_trickle_calculation();
       this.remove_trickle_calculation();
+      this.trickle_repayment_result_to_clipboard();
+      this.trickle_repayment_result_to_new_window();
    }
 
    reset_trickle_calculation() {
       this.#button_reset_trickle_repayment.addEventListener('click', () => {
          console.log("Value is reset!");
+
          this.Repayment_Model.trickle_original_amount_payable = this.#repayment_ui.trickle_amount_payable;
          this.Repayment_Model.trickle_original_overdue_balance = this.#repayment_ui.trickle_overdue_balance;
          this.Repayment_Model.trickle_repayment_list = [];
       });
    }
 
-
-
    add_trickle_calculation() {
       this.#button_add_trickle_repayment.addEventListener('click', () => {
-
 
          if (this.trickle_repayment_amount === 0) {
             console.warn("Repayment amount cannot be zero.");
             return
          }
-
          //Get the variables from repayment ui.
+         //Deconstruct the value.
          const {
             trickle_repayment_amount,
             trickle_amount_payable,
             trickle_overdue_balance,
-            trickle_repayment_date
+            trickle_repayment_date,
+            trickle_repayment_date_interval,
          } = this.#repayment_ui;
 
-         // Update Repayment_Model with the required values
+         console.log("Selected Interval:", trickle_repayment_date_interval)
+         //Deconstruct 
          Object.assign(this.Repayment_Model, {
             trickle_amount_payable,
             trickle_overdue_balance,
             trickle_repayment_amount,
-            trickle_repayment_date
+            trickle_repayment_date,
+            trickle_repayment_date_interval
          });
+
          // Perform the calculation
          this.Repayment_Model.add_trickle_calculation();
          // Update the view with the calculation result
-         
          // Update UI with the new balance
-         const { trickle_amount_payable: updated_amount_payable, trickle_overdue_balance: updated_overdue_balance } = this.Repayment_Model;
+         const { trickle_amount_payable: updated_amount_payable, trickle_overdue_balance: updated_overdue_balance, trickle_repayment_date_interval: update_repayment_date_interval } = this.Repayment_Model;
          Object.assign(this.#repayment_ui, {
             trickle_amount_payable: updated_amount_payable,
             trickle_overdue_balance: updated_overdue_balance
          });
-
          this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }
 
    remove_trickle_calculation() {
       this.#trickle_unordered_list.addEventListener("click", (event) => {
-         //Return $85 back to the balance 
+         //Return $85 back to the balance.
          //The remainder should be $5.
          if (event.target && event.target.classList.contains("delete-btn")) {
             this.Repayment_Model.trickle_amount_payable = this.#repayment_ui.trickle_amount_payable;
@@ -101,5 +108,17 @@ class RepaymentController {
          this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }
+
+   trickle_repayment_result_to_clipboard() {
+      
+   }
+   trickle_repayment_result_to_new_window() {
+      this.#button_trickle_repayment_to_new_window.addEventListener('click', () => {
+         console.log("Open new window!");
+         let repayment_data = this.Repayment_Model.trickle_repayment_list;
+         this.Repayment_View.html_trickle_result_to_new_window(repayment_data);
+      })
+   }
+
 }
 
