@@ -1,4 +1,23 @@
 //Global functions are here.
+
+async function copy_to_clipboard(params) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            console.log('Text copied to clipboard');
+        } else {
+            if (document.execCommand('copy')) {
+                console.log('Text copied to clipboard (fallback)');
+            } else {
+                throw new Error('Fallback method failed');
+            }
+
+            document.body.removeChild(textArea);
+        }
+    } catch (err) {
+        console.error('Failed to copy text', err);
+    }
+}
 function open_new_window(data) {
     const newWindow = window.open('', '_blank', 'width=400,height=300');
 
@@ -27,6 +46,7 @@ function open_new_window(data) {
         newWindow.postMessage(userData, '*');
     };
 }
+
 
 function advanceDate(date, intervalType) {
     //Clone the date

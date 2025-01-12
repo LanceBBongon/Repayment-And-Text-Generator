@@ -55,12 +55,12 @@ class RepaymentView {
                   $${this.#html_dom.sanitize(trickle_data.repayment_amount)}
                   <input 
                       type="button" 
-                      class="copy-btn btn-primary btn-sm"
+                      class="copy-amount-btn btn-primary btn-sm"
                       data-trickle-info='{"repayment_amount": "${this.#html_dom.sanitize(trickle_data.repayment_amount)}","repayment_date": "${this.#html_dom.sanitize(trickle_data.repayment_date)}"}' 
                       value="📋">, due on ${this.#html_dom.sanitize(trickle_data.repayment_date)}
                   <input 
                       type="button" 
-                      class="copy-btn btn-primary btn-sm"
+                      class="copy-date-btn btn-primary btn-sm"
                       data-trickle-info='{"repayment_amount": "${this.#html_dom.sanitize(trickle_data.repayment_amount)}","repayment_date": "${this.#html_dom.sanitize(trickle_data.repayment_date)}"}' 
                       value="📋">
               </li>
