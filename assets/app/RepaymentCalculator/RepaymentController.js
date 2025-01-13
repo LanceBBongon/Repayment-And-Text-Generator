@@ -4,7 +4,7 @@ class RepaymentController {
    #repayment_ui = UIRepayment;
 
    #trickle_unordered_list = this.#repayment_ui.ulist_trickle_repayment_result();
-
+   #button_trickle_repayment_result_to_clipboard = this.#repayment_ui
    #button_reset_trickle_repayment = this.#repayment_ui.button_reset_trickle_repayment();
    #button_add_trickle_repayment = this.#repayment_ui.button_add_trickle_repayment();
    #button_trickle_repayment_to_new_window = this.#repayment_ui.button_open_trickle_repayment_window();
@@ -106,12 +106,17 @@ class RepaymentController {
                listItem.remove();
             }
          }
-         
+
          this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }
 
    trickle_repayment_result_to_clipboard() {
+      this.#button_add_trickle_repayment.addEventListener('click', () => { 
+
+      });
+   }
+   trickle_repayment_hardship_result_to_clipboard() {
       
    }
    trickle_repayment_result_to_new_window() {
@@ -121,6 +126,7 @@ class RepaymentController {
          this.Repayment_View.html_trickle_result_to_new_window(repayment_data);
       })
    }
+
 
 }
 

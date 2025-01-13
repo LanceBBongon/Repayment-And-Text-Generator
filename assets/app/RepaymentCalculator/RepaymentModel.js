@@ -24,9 +24,9 @@ class RepaymentModel {
    reset_trickle_calculation() {
 
    }
-
    add_trickle_calculation() {
       let repayment_details = null;
+      let total_balance = this.trickle_amount_payable + this.trickle_overdue_balance;
       let total_amount = this.trickle_amount_payable + this.trickle_repayment_amount;
 
       if (this.trickle_amount_payable <= 0) {
@@ -39,18 +39,21 @@ class RepaymentModel {
          this.trickle_payment_count++;
       }
 
-      if (this.trickle_repayment_amount >= total_amount) {
+      if (this.trickle_repayment_amount >= total_balance) {
+         console.log("Repayment is over the limit of the total balance!")
          repayment_details = {
             repayment_id: this.trickle_payment_count,
-            repayment_amount: total_amount,
+            repayment_amount: total_balance,
             repayment_date: formatDate(this.trickle_repayment_date)
          };
          this.trickle_amount_payable = 0;
          this.trickle_overdue_balance = 0
+         this.trickle_repayment_date = advanceDate(this.trickle_repayment_date, this.trickle_repayment_date_interval);
+         this.trickle_repayment_list.push(repayment_details);
+         return this.trickle_repayment_list;
       }
 
       if (this.trickle_repayment_amount >= this.trickle_amount_payable && this.trickle_overdue_balance <= 0) {
-         
          repayment_details = {
             repayment_id: this.trickle_payment_count,
             repayment_amount: Math.min(this.trickle_amount_payable, this.trickle_amount_payable),
@@ -65,9 +68,8 @@ class RepaymentModel {
             repayment_date: formatDate(this.trickle_repayment_date)
          };
       }
+
       this.trickle_repayment_list.push(repayment_details);
-      // Check if repayment amount exceeds the amount payable.
-      // Adjust overdue balance and payable amount
       if (this.trickle_overdue_balance >= this.trickle_repayment_amount) {
          console.log("Caluculating overdue balance");
          this.trickle_overdue_balance -= this.trickle_repayment_amount;
@@ -87,13 +89,10 @@ class RepaymentModel {
       return this.trickle_repayment_list;
    }
 
-
-
-
    remove_trickle_calculation(repayment_id, repayment_amount) {
-
       let remaining_balance;
       let total_amount = this.trickle_amount_payable + repayment_amount;
+
       console.log(this.trickle_payment_count);
       console.log(this.trickle_repayment_list.length);
 
