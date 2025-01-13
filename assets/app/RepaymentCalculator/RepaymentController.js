@@ -66,10 +66,11 @@ class RepaymentController {
          this.Repayment_Model.add_trickle_calculation();
          // Update the view with the calculation result
          // Update UI with the new balance
-         const { trickle_amount_payable: updated_amount_payable, trickle_overdue_balance: updated_overdue_balance, trickle_repayment_date_interval: update_repayment_date_interval } = this.Repayment_Model;
+         const { trickle_amount_payable: updated_amount_payable, trickle_overdue_balance: updated_overdue_balance, trickle_repayment_date: update_repayment_date } = this.Repayment_Model;
          Object.assign(this.#repayment_ui, {
             trickle_amount_payable: updated_amount_payable,
-            trickle_overdue_balance: updated_overdue_balance
+            trickle_overdue_balance: updated_overdue_balance,
+            trickle_repayment_date: update_repayment_date
          });
          this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
@@ -105,6 +106,7 @@ class RepaymentController {
                listItem.remove();
             }
          }
+         
          this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }

@@ -37,7 +37,6 @@ document.getElementById('ulist-window-result').addEventListener("click", async (
        }
    }
 });
-
 async function copy_to_clipboard(params) {
    try {
        if (navigator.clipboard && window.isSecureContext) {
