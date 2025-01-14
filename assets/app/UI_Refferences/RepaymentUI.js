@@ -18,10 +18,13 @@ class RepaymentUI {
       input_trickle_overdue_balance: document.getElementById("input-reproduced-trickle-overdue-balance"),
       input_trickle_repayment_amount: document.getElementById("input-trickle-repayment-amount"),
       input_trickle_repayment_date: document.getElementById("input-trickle-repayment-date"),
+
       input_button_add_trickle_repayment: document.getElementById("input-button-add-trickle-repayment"),
       input_button_reset_trickle_repayment: document.getElementById("input-button-reset-trickle-repayment"),
-      input_button_open_window_of_trickle_repayment: document.getElementById("input-button-open-window-trickle-repayment"),
-
+      input_button_open_new_window_of_trickle_repayment: document.getElementById("input-button-open-window-trickle-repayment"),
+      input_button_copy_trickle_result_to_clipboard: document.getElementById("input-button-copy-trickle-repayment-to-clipboard"),
+      input_button_copy_trickle_repayment_hardship_result_to_clipboard: document.getElementById("input-button-copy-trickle-hardship-decline-to-clipboard"),
+     
       select_trickle_repayment_date_interval: document.getElementById("select-trickle-repayment-date-interval"),
 
      
@@ -53,7 +56,14 @@ class RepaymentUI {
       return this.#repayment_element_reference.input_button_add_trickle_repayment;
    }
    button_open_trickle_repayment_window() {
-      return this.#repayment_element_reference.input_button_open_window_of_trickle_repayment;
+      return this.#repayment_element_reference.input_button_open_new_window_of_trickle_repayment;
+   }
+
+   button_open_trickle_repayment_to_clipboard() {
+      return this.#repayment_element_reference.input_button_copy_trickle_result_to_clipboard;
+   }
+   button_copy_trickle_repayment_hardship_result_to_clipboard() {
+      return this.#repayment_element_reference.input_button_copy_trickle_repayment_hardship_result_to_clipboard;
    }
 
    div_repayment = () => this.#repayment_element_reference.div_repayment;

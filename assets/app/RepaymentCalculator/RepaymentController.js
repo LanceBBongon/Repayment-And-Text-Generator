@@ -9,11 +9,14 @@ class RepaymentController {
    #button_add_trickle_repayment = this.#repayment_ui.button_add_trickle_repayment();
    #button_trickle_repayment_to_new_window = this.#repayment_ui.button_open_trickle_repayment_window();
 
+
+   #button_trickle_repayment_to_clipboard = this.#repayment_ui.button_open_trickle_repayment_to_clipboard();
+   #button_trickle_hardship_decline_to_clipboard = this.#repayment_ui.button_copy_trickle_repayment_hardship_result_to_clipboard();
+  
    constructor(Repayment_View, Repayment_Model) {
       console.log("Repayment Controller Loaded.");
       this.Repayment_View = Repayment_View;
       this.Repayment_Model = Repayment_Model;
-
       this.trickle_repayment();
    }
 
@@ -21,10 +24,10 @@ class RepaymentController {
       this.reset_trickle_calculation();
       this.add_trickle_calculation();
       this.remove_trickle_calculation();
-      this.trickle_repayment_result_to_clipboard();
       this.trickle_repayment_result_to_new_window();
+      this.trickle_repayment_result_to_clipboard();
+      this.trickle_repayment_hardship_result_to_clipboard();
    }
-
    reset_trickle_calculation() {
       this.#button_reset_trickle_repayment.addEventListener('click', () => {
          console.log("Value is reset!");
@@ -34,7 +37,6 @@ class RepaymentController {
          this.Repayment_Model.trickle_repayment_list = [];
       });
    }
-
    add_trickle_calculation() {
       this.#button_add_trickle_repayment.addEventListener('click', () => {
 
@@ -110,23 +112,23 @@ class RepaymentController {
          this.Repayment_View.html_trickle_ulist_result(this.Repayment_Model.trickle_repayment_list);
       });
    }
-
    trickle_repayment_result_to_clipboard() {
-      this.#button_add_trickle_repayment.addEventListener('click', () => { 
-
+      this.#button_trickle_repayment_to_clipboard.addEventListener('click', () => {
+         console.log("Completed");
       });
    }
    trickle_repayment_hardship_result_to_clipboard() {
-      
+      this.#button_trickle_hardship_decline_to_clipboard.addEventListener('click', () => {
+         console.log("Hardship Decline");
+         
+      });
    }
    trickle_repayment_result_to_new_window() {
       this.#button_trickle_repayment_to_new_window.addEventListener('click', () => {
          console.log("Open new window!");
          let repayment_data = this.Repayment_Model.trickle_repayment_list;
          this.Repayment_View.html_trickle_result_to_new_window(repayment_data);
-      })
+      });
    }
-
-
 }
 

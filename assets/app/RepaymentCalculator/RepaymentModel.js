@@ -88,7 +88,6 @@ class RepaymentModel {
       this.trickle_repayment_date = advanceDate(this.trickle_repayment_date, this.trickle_repayment_date_interval);
       return this.trickle_repayment_list;
    }
-
    remove_trickle_calculation(repayment_id, repayment_amount) {
       let remaining_balance;
       let total_amount = this.trickle_amount_payable + repayment_amount;
@@ -116,9 +115,7 @@ class RepaymentModel {
       } else {
          console.log("Issue!");
       }
-
       this.update_repayment_list(repayment_id);
-      
    }
 
    update_repayment_list(repayment_id) {
@@ -130,12 +127,9 @@ class RepaymentModel {
       this.trickle_repayment_list.forEach((item, idx) => {
          item.repayment_id = idx + 1;
       });
-
       // Adjust payment count if the list isn't empty
       if (this.trickle_repayment_list.length > 0) {
          this.trickle_payment_count -= 1;
       }
-
-      
    }
 }
